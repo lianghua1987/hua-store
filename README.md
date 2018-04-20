@@ -8,22 +8,22 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 
 #### Agenda:
 
-| DAYS | Agenda                                                       | Finished | Date                   |
-| ---- | ------------------------------------------------------------ | -------- | ---------------------- |
-| 1    | Background, history, now and future. Setup project, GitHub repo created. |          | 04/18/2018, 04/19/2018 |
-| 2    | Framework intergration. Products list implemetation, paganation. |          |                        |
-| 3    | Backend service management. Add product, image upload.       |          |                        |
-| 4    | Product regulation?                                          |          |                        |
-| 5    | Product front end, display page.                             |          |                        |
-| 6    | cms implementation. Ad display.                              |          |                        |
-| 7**  | Add cache, Redis, cache synchornaztion.                      |          |                        |
-| 8*   | Search function. Implement by solr.                          |          |                        |
-| 9    | Product detail page.                                         |          |                        |
-| 10   | Shared session.                                              |          |                        |
-| 11   | Shopping cart.                                               |          |                        |
-| 12** | Nginx                                                        |          |                        |
-| 13   | Redis cluster, solr cluster. System deployment.              |          |                        |
-| 14   | Wrap up                                                      |          |                        |
+| DAYS | Agenda                                                       | Finished | Date                               |
+| ---- | ------------------------------------------------------------ | -------- | ---------------------------------- |
+| 1    | Background, history, now and future. Setup maven project, GitHub repo created. |          | 04/18/2018, 04/19/2018, 04/19/2018 |
+| 2    | Framework intergration. Products list implemetation, paganation. |          |                                    |
+| 3    | Backend service management. Add product, image upload.       |          |                                    |
+| 4    | Product regulation?                                          |          |                                    |
+| 5    | Product front end, display page.                             |          |                                    |
+| 6    | cms implementation. Ad display.                              |          |                                    |
+| 7**  | Add cache, Redis, cache synchornaztion.                      |          |                                    |
+| 8*   | Search function. Implement by solr.                          |          |                                    |
+| 9    | Product detail page.                                         |          |                                    |
+| 10   | Shared session.                                              |          |                                    |
+| 11   | Shopping cart.                                               |          |                                    |
+| 12** | Nginx                                                        |          |                                    |
+| 13   | Redis cluster, solr cluster. System deployment.              |          |                                    |
+| 14   | Wrap up                                                      |          |                                    |
 
 #### Features:
 
@@ -58,10 +58,53 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 
 #### Maven 
 
-| Pom Files    | Extension |
-| ------------ | --------- |
-| store-parent | .pom      |
-| store-common | .jar      |
-|              |           |
+| Pom Files     | Extension |
+| ------------- | --------- |
+| store-parent  | .pom      |
+| store-common  | .jar      |
+| store-manager | .pom      |
 
-Version Management
+#### Structure
+
+store-parent
+
+|— store-common
+
+|— store-manager
+
+​       |— com.hua.manager.web(.**war**)
+
+​       |— com.hua.manager.service
+
+​       |— com.hua.manager.mapper
+
+​       |— com.hua.manager.pojo
+
+#### Config
+
+```
+// under store-manager, pom.xml
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <port>8080</port>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+
+
+#### Run
+
+```
+// under store-manager
+mvn clean install
+mvn clean tomcat7:run
+```
+
