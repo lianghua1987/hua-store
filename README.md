@@ -46,24 +46,22 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 #### Development Environment
 
 - IntelliJ
-
 - Maven 3.3.9
-
 - Tomcat 9.0.6
-
 - JDK 1.8
-
 - MySql 5.7.21
-
 - Nginx
-
 - Redis 3.2.11
-
 - macOS High Sierra
-
 - Github - https://github.com/lianghua1987/hua-store.git
 
-  ​
 
-  ​
+#### Maven 
 
+| Pom Files    | Extension |
+| ------------ | --------- |
+| store-parent | .pom      |
+| store-common | .jar      |
+|              |           |
+
+Version Management
