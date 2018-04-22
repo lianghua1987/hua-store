@@ -9,9 +9,9 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 #### Agenda:
 
 | DAYS | Agenda                                                       | Finished | Date                               |
-| ---- | ------------------------------------------------------------ | -------- | ---------------------------------- |
-| 1    | Background, history, now and future. Setup maven project, GitHub repo created. |          | 04/18/2018, 04/19/2018, 04/19/2018 |
-| 2    | Framework intergration. Products list implemetation, paganation. |          |                                    |
+| ---- | ------------------------------------------------------------ | :------: | ---------------------------------- |
+| 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018 |
+| 2    | Framework intergration. Products list implemetation, paganation. |          | 04/21/2018                         |
 | 3    | Backend service management. Add product, image upload.       |          |                                    |
 | 4    | Product regulation?                                          |          |                                    |
 | 5    | Product front end, display page.                             |          |                                    |
@@ -98,8 +98,6 @@ store-parent
     </build>
 ```
 
-
-
 #### Run
 
 ```
@@ -107,4 +105,57 @@ store-parent
 mvn clean install
 mvn clean tomcat7:run
 ```
+
+#### Framework
+
+springMVC + spring + mybatis
+
+#### Database configuration, entity creation
+
+1. create database: store
+2. load init.sql(/scripts)
+3. Reverse engineering -> db schema to java entity
+
+mvn clean install — plugin way
+
+```
+<plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.5</version>
+                <configuration>
+                    	<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>Generate MyBatis Artifacts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.3.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.28</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+```
+
+
+
+Ref:
+
+http://www.mybatis.org/generator/index.html
+
+https://github.com/mybatis/generator/releases
 
