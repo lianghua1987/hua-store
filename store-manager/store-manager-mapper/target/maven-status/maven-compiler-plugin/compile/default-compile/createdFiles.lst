@@ -1,0 +1,11 @@
+com/hua/store/mapper/UserMapper.class
+com/hua/store/mapper/OrderShippingMapper.class
+com/hua/store/mapper/ItemParameterItemMapper.class
+com/hua/store/mapper/ItemDescriptionMapper.class
+com/hua/store/mapper/ContentCategoryMapper.class
+com/hua/store/mapper/OrderItemMapper.class
+com/hua/store/mapper/OrderMapper.class
+com/hua/store/mapper/ItemCategoryMapper.class
+com/hua/store/mapper/ItemMapper.class
+com/hua/store/mapper/ContentMapper.class
+com/hua/store/mapper/ItemParameterMapper.class

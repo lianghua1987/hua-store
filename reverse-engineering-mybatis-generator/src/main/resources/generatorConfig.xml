@@ -20,7 +20,7 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.hua.store.generated.pojo"
+        <javaModelGenerator targetPackage="com.hua.store.pojo"
                             targetProject="./src/main/java">
 
             <property name="enableSubPackages" value="false"/>
@@ -28,13 +28,13 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.hua.store.generated.mapper"
+        <sqlMapGenerator targetPackage="com.hua.store.mapper"
                          targetProject="./src/main/java">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.hua.store.generated.mapper"
+                             targetPackage="com.hua.store.mapper"
                              targetProject="./src/main/java">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
