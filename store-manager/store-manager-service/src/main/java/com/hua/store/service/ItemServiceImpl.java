@@ -1,5 +1,8 @@
 package com.hua.store.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.hua.store.common.pojo.EUDataGridResult;
 import com.hua.store.mapper.ItemMapper;
 import com.hua.store.pojo.Item;
 import com.hua.store.pojo.ItemExample;
@@ -29,5 +32,13 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return null;
+    }
+
+    @Override
+    public EUDataGridResult getAll(Integer pageNumber, Integer pageSize) {
+        ItemExample example = new ItemExample();
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Item> list = itemMapper.selectByExample(example);
+        return new EUDataGridResult(new PageInfo<>(list).getTotal(), list);
     }
 }

@@ -1,5 +1,6 @@
 package com.hua.store.controller;
 
+import com.hua.store.common.pojo.EUDataGridResult;
 import com.hua.store.pojo.Item;
 import com.hua.store.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Controller
 public class ItemController {
@@ -23,9 +22,19 @@ public class ItemController {
     @ResponseBody
     public Item getItemById(@PathVariable Long itemId) {
         LocalDateTime start = LocalDateTime.now();
-        Item item =  itemService.getItemById(itemId);
+        Item item = itemService.getItemById(itemId);
         System.out.println("Duration in millis: " + Duration.between(start, LocalDateTime.now()).toMillis());
         return item;
     }
+
+    @RequestMapping("/item/list")
+    @ResponseBody
+    public EUDataGridResult getAll(Integer page, Integer rows) {
+        LocalDateTime start = LocalDateTime.now();
+        EUDataGridResult euDataGridResult = itemService.getAll(page, rows);
+        System.out.println("Item getAll - duration in millis: " + Duration.between(start, LocalDateTime.now()).toMillis());
+        return euDataGridResult;
+    }
+
 
 }

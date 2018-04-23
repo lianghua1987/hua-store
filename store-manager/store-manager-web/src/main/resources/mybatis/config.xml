@@ -5,4 +5,10 @@
 
 <configuration>
 
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--<property name="dialect" value="mysql"/>-->
+        </plugin>
+    </plugins>
+
 </configuration>

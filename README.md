@@ -13,7 +13,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 | DAYS | Agenda                                                       | Finished | Date                               |
 | ---- | ------------------------------------------------------------ | :------: | ---------------------------------- |
 | 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018 |
-| 2    | Framework intergration. Products list implemetation, paganation. |          | 04/21/2018                         |
+| 2    | Framework intergration. Products list implemetation, paganation. |          | 04/21/2018, 04/22/2018             |
 | 3    | Backend service management. Add product, image upload.       |          |                                    |
 | 4    | Product regulation?                                          |          |                                    |
 | 5    | Product front end, display page.                             |          |                                    |
@@ -205,7 +205,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 2. ModelViewResolver configuration
 3. Scan controller
 
-### Web.xml
+#### Web.xml
 
 1. SpringIoc configuration
 2. SpringMvc configuration
@@ -221,8 +221,11 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
-<configuration>
-</configuration>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--<property name="dialect" value="mysql"/>-->
+        </plugin>
+    </plugins>
 ```
 
 #### *ApplicationContext-dao.xml*
@@ -346,8 +349,8 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
     </bean>
     
     <!-- Static resources mapping -->
-    <mvc:resources mapping="/WEB-INF/css/" location="/css/**"/>
-	<mvc:resources mapping="/WEB-INF/js/" location="/js/**"/>
+   <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
+   <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
 </beans>
 ```
 
@@ -408,11 +411,43 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 
 ![](images/Screen Shot 2018-04-22 at 2.42.33 PM.png)tt
 
+### Resource:
+
+- item/list
+  - Parameters - http://localhost:8080/item/list?page=1&rows=30
+  - Response -EasyUI datagrid component requires Json format : ***{total: 2, rows:[{"id":1, "name": "zhangsan"},{"id":2, "name": "lisi"}]}***
+
+#### MyBatis PageHelper
+
+MyBatis SqlSessionFactory
+
+​                    |
+
+​            Sql Session
+
+​                    |
+
+​              Exectuor
+
+​                    |      --> MyBatis plugin implements Interceptor interface. Using *LIMIT* in sql statement.
+
+​        MappedStatment
+
+PageHelper.startPage(PAGE_NUM, PAGE_SIZE)
+
+
+
+### Reference:
+
+mvc:resources - https://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/mvc.html#mvc-static-resources
+
+mybatis page helper - https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md
+
 
 
 ### TroubleShoot
 
 java.lang.ClassNotFoundException: com.fasterxml.jackson.core.JsonProcessingException - https://blog.csdn.net/RyanDYJ/article/details/76687161
 
-
+PageHelper Cannot cast to Interceptor. #48 - https://github.com/pagehelper/Mybatis-PageHelper/issues/48
 
