@@ -15,7 +15,7 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
-    private ItemMapper itemMapper;
+    private ItemMapper mapper;
 
     @Override
     public Item getItemById(Long itemId) {
@@ -25,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
         ItemExample itemExample = new ItemExample();
         ItemExample.Criteria criteria = itemExample.createCriteria();
         criteria.andIdEqualTo(itemId);
-        List<Item> items = itemMapper.selectByExample(itemExample);
+        List<Item> items = mapper.selectByExample(itemExample);
 
         if(items != null && !items.isEmpty()){
             return items.get(0);
@@ -38,7 +38,7 @@ public class ItemServiceImpl implements ItemService {
     public EUDataGridResult getAll(Integer pageNumber, Integer pageSize) {
         ItemExample example = new ItemExample();
         PageHelper.startPage(pageNumber, pageSize);
-        List<Item> list = itemMapper.selectByExample(example);
+        List<Item> list = mapper.selectByExample(example);
         return new EUDataGridResult(new PageInfo<>(list).getTotal(), list);
     }
 }

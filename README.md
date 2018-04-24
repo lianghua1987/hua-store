@@ -13,7 +13,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 | DAYS | Agenda                                                       | Finished | Date                               |
 | ---- | ------------------------------------------------------------ | :------: | ---------------------------------- |
 | 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018 |
-| 2    | Framework intergration. Products list implemetation, paganation. |          | 04/21/2018, 04/22/2018             |
+| 2    | Framework intergration. Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018 |
 | 3    | Backend service management. Add product, image upload.       |          |                                    |
 | 4    | Product regulation?                                          |          |                                    |
 | 5    | Product front end, display page.                             |          |                                    |
@@ -443,7 +443,7 @@ mvc:resources - https://docs.spring.io/spring/docs/3.0.x/spring-framework-refere
 
 mybatis page helper - https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md
 
-
+easyui的datagrid對應的java對象 - https://hk.saowen.com/a/a2afa859baee4c35d5ee46363513d2630a5bfd7259564334480affa4c6546ee2
 
 ### TroubleShoot
 

@@ -16,22 +16,22 @@ import java.time.LocalDateTime;
 public class ItemController {
 
     @Autowired
-    private ItemService itemService;
+    private ItemService service;
 
     @RequestMapping("/item/{itemId}")
     @ResponseBody
     public Item getItemById(@PathVariable Long itemId) {
         LocalDateTime start = LocalDateTime.now();
-        Item item = itemService.getItemById(itemId);
+        Item item = service.getItemById(itemId);
         System.out.println("Duration in millis: " + Duration.between(start, LocalDateTime.now()).toMillis());
         return item;
     }
 
-    @RequestMapping("/item/list")
+    @RequestMapping("/items")
     @ResponseBody
     public EUDataGridResult getAll(Integer page, Integer rows) {
         LocalDateTime start = LocalDateTime.now();
-        EUDataGridResult euDataGridResult = itemService.getAll(page, rows);
+        EUDataGridResult euDataGridResult = service.getAll(page, rows);
         System.out.println("Item getAll - duration in millis: " + Duration.between(start, LocalDateTime.now()).toMillis());
         return euDataGridResult;
     }

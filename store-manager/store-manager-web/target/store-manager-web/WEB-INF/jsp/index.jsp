@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Hua Store Managment System</title>
-<link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.5.5/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.5.5/themes/bootstrap/easyui.css" />
 <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.5.5/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="/css/store.css" />
 <script type="text/javascript" src="/js/jquery-easyui-1.5.5/jquery.min.js"></script>
