@@ -2,19 +2,17 @@
 
 An e-commerce store designed by Hua, and just for fun using some java8 technology, solr, redis cluster, nginx.
 
-### Init
-
-#### Background:
+## Background
 
 E-commerce website is popular in nowadays market, especially in China. In order to make myself competent, I need to learn how to build a e-commerce website from scrach.
 
-#### Agenda:
+## Agenda
 
 | DAYS | Agenda                                                       | Finished | Date                               |
 | ---- | ------------------------------------------------------------ | :------: | ---------------------------------- |
 | 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018 |
 | 2    | Framework intergration. Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018 |
-| 3    | Backend service management. Add product, image upload.       |          |                                    |
+| 3    | Backend service management. Add product, image upload.       |          | 04/24/2018, 04/25/2018             |
 | 4    | Product regulation?                                          |          |                                    |
 | 5    | Product front end, display page.                             |          |                                    |
 | 6    | cms implementation. Ad display.                              |          |                                    |
@@ -27,7 +25,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 | 13   | Redis cluster, solr cluster. System deployment.              |          |                                    |
 | 14   | Wrap up                                                      |          |                                    |
 
-#### Features:
+## Features
 
 - Backend: Product mangement, order managerment, category management, user management, publisher
 - Frontend: User can register, login, broswer products, homepage and place an order
@@ -35,30 +33,18 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 - Order: Place, search, modify and order scheduler
 - Seach: Prodct search function
 
-#### Tech Approach:
+## Tech Approach
 
 - Spring, SpringMVC, Mybatis
 - JSP, JSTL, jQuery, plugin, EasyUI, KindEditor
-- Rdis
+- Redis
 - Solr
 - httpClient
 - Mysql
 - Nginx
+- Tomcat
 
-#### Development Environment
-
-- IntelliJ
-- Maven 3.3.9
-- Tomcat 9.0.6
-- JDK 1.8
-- MySql 5.7.21
-- Nginx
-- Redis 3.2.11
-- macOS High Sierra
-- Github - https://github.com/lianghua1987/hua-store.git
-
-
-#### Maven 
+## Maven 
 
 | Pom Files     | Extension |
 | ------------- | --------- |
@@ -66,7 +52,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 | store-common  | .jar      |
 | store-manager | .pom      |
 
-#### Structure
+## Structure
 
 store-parent
 
@@ -82,7 +68,7 @@ store-parent
 
 ​       |— com.hua.manager.pojo
 
-#### Config
+Config:
 
 ```
 // under store-manager, pom.xml
@@ -100,7 +86,7 @@ store-parent
     </build>
 ```
 
-#### Run
+Run
 
 ```
 // under store-manager
@@ -108,11 +94,9 @@ mvn clean install
 mvn clean tomcat7:run
 ```
 
-#### Framework
+Framework: springMVC + spring + mybatis
 
-springMVC + spring + mybatis
-
-#### Database configuration, entity creation
+### Database configuration, entity creation
 
 1. create database: store
 2. load init.sql(/scripts)
@@ -213,7 +197,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 
 #### Configurations - Under store-manager-web
 
-#### *Config.xml*
+##### *Config.xml*
 
 ```Xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -228,7 +212,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
     </plugins>
 ```
 
-#### *ApplicationContext-dao.xml*
+##### *ApplicationContext-dao.xml*
 
 ```
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -270,7 +254,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 </beans>
 ```
 
-#### *ApplicationContext-service.xml*
+##### *ApplicationContext-service.xml*
 
 ```
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -289,7 +273,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 </beans>
 ```
 
-#### *ApplicationContext-transaction.xml*
+##### *ApplicationContext-transaction.xml*
 
 ```
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -327,7 +311,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 </beans>
 ```
 
-#### *Spingmvc.xml*
+##### *springmvc.xml*
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -354,7 +338,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 </beans>
 ```
 
-#### *Web.xml*
+##### *web.xml*
 
 ```
 <!DOCTYPE web-app PUBLIC
@@ -411,7 +395,7 @@ Using mybatis framework, create *sqlMapConfig.xml*, *applicationContext-dao.xml*
 
 ![](images/Screen Shot 2018-04-22 at 2.42.33 PM.png)tt
 
-### Resource:
+#### Resource
 
 - item/list
   - Parameters - http://localhost:8080/item/list?page=1&rows=30
@@ -435,9 +419,18 @@ MyBatis SqlSessionFactory
 
 PageHelper.startPage(PAGE_NUM, PAGE_SIZE)
 
+#### Image upload
+
+- Tomcat cluster
+- Image server - user upload images, http request
+  - Need a http server - e.g. apache, **nginx**
+  - Use ftp service to upload image - linux bundled ftp server: **vsftpd**
 
 
-### Reference:
+
+
+
+## Reference
 
 mvc:resources - https://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/mvc.html#mvc-static-resources
 
@@ -445,7 +438,7 @@ mybatis page helper - https://github.com/pagehelper/Mybatis-PageHelper/blob/mast
 
 easyui的datagrid對應的java對象 - https://hk.saowen.com/a/a2afa859baee4c35d5ee46363513d2630a5bfd7259564334480affa4c6546ee2
 
-### TroubleShoot
+## TroubleShoot
 
 java.lang.ClassNotFoundException: com.fasterxml.jackson.core.JsonProcessingException - https://blog.csdn.net/RyanDYJ/article/details/76687161
 
