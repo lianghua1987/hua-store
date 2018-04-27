@@ -8,22 +8,22 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 
 ## Agenda
 
-| DAYS | Agenda                                                       | Finished | Date                               |
-| ---- | ------------------------------------------------------------ | :------: | ---------------------------------- |
-| 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018 |
-| 2    | Framework intergration. Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018 |
-| 3    | Backend service management. Add product, image upload.       |          | 04/24/2018, 04/25/2018             |
-| 4    | Product regulation?                                          |          |                                    |
-| 5    | Product front end, display page.                             |          |                                    |
-| 6    | cms implementation. Ad display.                              |          |                                    |
-| 7**  | Add cache, Redis, cache synchornaztion.                      |          |                                    |
-| 8*   | Search function. Implement by solr.                          |          |                                    |
-| 9    | Product detail page.                                         |          |                                    |
-| 10   | Shared session.                                              |          |                                    |
-| 11   | Shopping cart.                                               |          |                                    |
-| 12** | Nginx                                                        |          |                                    |
-| 13   | Redis cluster, solr cluster. System deployment.              |          |                                    |
-| 14   | Wrap up                                                      |          |                                    |
+| DAYS | Agenda                                                       | Finished | Date                                           |
+| ---- | ------------------------------------------------------------ | :------: | ---------------------------------------------- |
+| 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018             |
+| 2    | Framework intergration. Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018             |
+| 3    | Backend service management. Add product, image upload.       |          | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
+| 4    | Product regulation?                                          |          |                                                |
+| 5    | Product front end, display page.                             |          |                                                |
+| 6    | cms implementation. Ad display.                              |          |                                                |
+| 7**  | Add cache, Redis, cache synchornaztion.                      |          |                                                |
+| 8*   | Search function. Implement by solr.                          |          |                                                |
+| 9    | Product detail page.                                         |          |                                                |
+| 10   | Shared session.                                              |          |                                                |
+| 11   | Shopping cart.                                               |          |                                                |
+| 12** | Nginx                                                        |          |                                                |
+| 13   | Redis cluster, solr cluster. System deployment.              |          |                                                |
+| 14   | Wrap up                                                      |          |                                                |
 
 ## Features
 
@@ -427,6 +427,122 @@ PageHelper.startPage(PAGE_NUM, PAGE_SIZE)
   - Use ftp service to upload image - linux bundled ftp server: **vsftpd**
 
 
+#### Install Nginx
+
+- PCRE(Perl Compatible Regular Expressions)是一个Perl库，包括 perl 兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装pcre库。注：pcre-devel是使用pcre开发的一个二次开发库。nginx也需要此库。
+- zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在linux上安装zlib库。
+- OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。nginx不仅支持http协议，还支持https（即在ssl协议上传输http），所以需要在linux安装openssl库。
+
+```
+ssh hua@10.0.0.100 // start virtualbox node1
+apt-cache search nginx
+sudo apt-get install nginx
+sudo apt-get install libpcre3-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install openssl
+
+find / -name nginx // dpkg -L nginx
+```
+
+```
+/usr/sbin/nginx -s quit
+/usr/sbin/nginx -g 'daemon on; master_process on;
+/etc/init/nginx.conf 
+
+ apt-get remove --purge 
+```
+
+```
+hua@node1:/usr/sbin$ ps aux | grep nginx
+hua       3820  0.0  0.0  21292   936 pts/1    S+   21:50   0:00 grep --color=auto nginx
+hua@node1:/usr/sbin$ sudo ./nginx
+hua@node1:/usr/sbin$ ps aux | grep nginx
+root      3829  0.0  0.1 124976  1428 ?        Ss   21:50   0:00 nginx: master process ./nginx
+www-data  3830  0.0  0.3 125336  3192 ?        S    21:50   0:00 nginx: worker process
+hua       3833  0.0  0.0  21292   940 pts/1    S+   21:50   0:00 grep --color=auto nginx
+hua@node1:/usr/sbin$ sudo ./nginx -s stop
+hua@node1:/usr/sbin$ ps aux | grep nginx
+hua       3841  0.0  0.1  21292  1012 pts/1    S+   21:50   0:00 grep --color=auto nginx
+hua@node1:/usr/sbin$ sudo ./nginx -s reload
+```
+
+#### Install ftp
+
+```
+sudo apt-get install vsftpd
+sudo nano /etc/vsftpd.conf
+
+# Uncomment this to enable any form of FTP write command.
+write_enable=YES
+
+# You may restrict local users to their home directories.  See the FAQ for
+# the possible risks in this before using chroot_local_user or
+# chroot_list_enable below.
+chroot_local_user=YES
+```
+
+open firewall
+
+```
+hua@node1:/etc$ sudo ufw enable
+hua@node1:/etc$ sudo ufw allow 21 //ftp
+hua@node1:/etc$ sudo ufw allow 20
+hua@node1:/etc$ sudo ufw allow 22 // ssh
+hua@node1:/etc$ sudo ufw allow 80 // This has to be allowed once firewall enabled
+```
+
+add ftp user
+
+```
+hua@node1:/etc$ sudo useradd ftpadmin
+hua@node1:/etc$ sudo passwd ftpadmin
+Enter new UNIX password: //ftpadmin
+Retype new UNIX password: //ftpadmin
+passwd: password updated successfully
+// setup root directory
+hua@node1:/home$ sudo mkdir /home/ftpadmin
+hua@node1:/home$ sudo usermod --shell /bin/bash --home /home/ftpadmin ftpadmin
+hua@node1:/home$ sudo chown -R ftpadmin:ftpadmin /home/ftpadmin
+```
+
+install fileZilla - ftp client, setting -> change ftp to **active**
+
+Ref: https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user-s-directory-on-ubuntu-16-04
+
+install selinux-utils
+
+```
+sudo apt install selinux-utils
+```
+
+change /etc/vsftpd.config
+
+```
+write_enable=YES
+```
+
+Subdirectory configuration — **REAL SHIT!** **Two nights of work!!!**
+
+```
+hua@node1:sudo mkdir /home/ftpadmin/www/images
+hua@node1: chmod 755 /home/ftpadmin/www/images
+hua@node1: chmod 644 /home/ftpadmin/www/images/*.*
+hua@node1:/var/www/html$ sudo vim /etc/nginx/sites-enabled/default
+// Add
+        # images
+        location /images {
+                alias /home/ftpadmin/www/images/;
+        }
+hua@node1:sudo nginx -s stop
+hua@node1:sudo nginx
+hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
+```
+
+#### Note:
+
+1. 使用alias时目录名后面一定要加“/”
+2. 一般情况下，在location /中配置root，**在location /other中配置alias**
+
 
 
 
@@ -438,9 +554,15 @@ mybatis page helper - https://github.com/pagehelper/Mybatis-PageHelper/blob/mast
 
 easyui的datagrid對應的java對象 - https://hk.saowen.com/a/a2afa859baee4c35d5ee46363513d2630a5bfd7259564334480affa4c6546ee2
 
+nginx配置静态文件目录404 - https://zhangguodong.me/2017/01/22/nginx%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95404/
+
 ## TroubleShoot
 
 java.lang.ClassNotFoundException: com.fasterxml.jackson.core.JsonProcessingException - https://blog.csdn.net/RyanDYJ/article/details/76687161
 
 PageHelper Cannot cast to Interceptor. #48 - https://github.com/pagehelper/Mybatis-PageHelper/issues/48
+
+Could not chdir to home directory /home/me: No such file or directory - https://askubuntu.com/questions/401201/could-not-chdir-to-home-directory-home-me-no-such-file-or-directory?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+Nginx 403 error: directory index of [folder] is forbidden - https://stackoverflow.com/questions/19285355/nginx-403-error-directory-index-of-folder-is-forbidden?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
