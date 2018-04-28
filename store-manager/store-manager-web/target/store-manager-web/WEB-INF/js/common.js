@@ -23,9 +23,9 @@ var TT = HuaStore = {
 	// 编辑器参数
 	kingEditorParams : {
 		//指定上传文件参数名称
-		filePostName  : "uploadFile",
+		filePostName  : "multipartFile",
 		//指定上传文件请求的url。
-		uploadJson : '/pic/upload',
+		uploadJson : '/image/upload',
 		//上传类型，分别为image、flash、media、file
 		dir : "image"
 	},
@@ -58,13 +58,13 @@ var TT = HuaStore = {
     
     init : function(data){
     	// 初始化图片上传组件
-    	this.initPicUpload(data);
+    	this.initImageUpload(data);
     	// 初始化选择类目组件
     	this.initItemCat(data);
     },
     // 初始化图片上传组件
-    initPicUpload : function(data){
-    	$(".picFileUpload").each(function(i,e){
+    initImageUpload : function(data){
+    	$(".imageUpload").each(function(i,e){
     		var _ele = $(e);
     		_ele.siblings("div.pics").remove();
     		_ele.after('\

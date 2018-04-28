@@ -1,4 +1,6 @@
 com/hua/store/service/ItemService.class
+com/hua/store/service/ImageService.class
 com/hua/store/service/ItemServiceImpl.class
 com/hua/store/service/ItemCategoryServiceImpl.class
+com/hua/store/service/ImageServiceImpl.class
 com/hua/store/service/ItemCategoryService.class

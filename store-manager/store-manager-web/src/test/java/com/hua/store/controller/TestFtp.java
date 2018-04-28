@@ -1,6 +1,7 @@
 package com.hua.store.controller;
 
 
+import com.github.pagehelper.PageInterceptor;
 import com.hua.store.common.utils.FtpUtil;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -17,6 +18,10 @@ public class TestFtp {
     private static final String USER_NAME = "ftpadmin";
     private static final String PASSWORD = "ftpadmin";
     private static final String WORKING_DIR = "/home/ftpadmin/www/images";
+    private static final String BASE_PATH = "/home/ftpadmin/www/";
+    private static final String FILE_PATH = "images";
+    private static final String FILE_NAME = "java.jpg";
+
     private static final int PORT = 21;
 
     @Test
@@ -32,14 +37,24 @@ public class TestFtp {
         System.out.println(ftpClient.getReplyString());
         ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
 
-        ftpClient.storeFile("java.jpg",  getClass().getClassLoader().getResourceAsStream("java.jpg"));
+        ftpClient.storeFile(FILE_NAME,  getClass().getClassLoader().getResourceAsStream("java.jpg"));
         ftpClient.logout();
         ftpClient.disconnect();
     }
 
     @Test
-    public void testFtpUtil() throws IOException {
-        FtpUtil.upload("java.jpg", getClass().getClassLoader().getResourceAsStream("java.jpg"));
+    public void testFtpUpload() throws IOException {
+        FtpUtil.upload(FILE_NAME, getClass().getClassLoader().getResourceAsStream("java.jpg"));
+    }
+
+    @Test
+    public void testFtpUpload1l() throws IOException {
+        FtpUtil.upload(HOST_NAME, PORT, USER_NAME, PASSWORD, BASE_PATH, FILE_PATH, FILE_NAME, getClass().getClassLoader().getResourceAsStream("java.jpg"));
+    }
+
+    @Test
+    public void testFtpUpload12() throws IOException {
+        FtpUtil.upload(HOST_NAME, PORT, USER_NAME, PASSWORD, BASE_PATH, FILE_PATH, "mango.jpg", getClass().getClassLoader().getResourceAsStream("mango.jpg"));
     }
 }
 

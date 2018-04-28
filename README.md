@@ -521,7 +521,7 @@ change /etc/vsftpd.config
 write_enable=YES
 ```
 
-Subdirectory configuration — **REAL SHIT!** **Two nights of work!!!**
+subdirectory configuration — **REAL SHIT!** **TWO NIGHTS OF WORK**
 
 ```
 hua@node1:sudo mkdir /home/ftpadmin/www/images
@@ -543,6 +543,8 @@ hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
 1. 使用alias时目录名后面一定要加“/”
 2. 一般情况下，在location /中配置root，**在location /other中配置alias**
 
+
+#### MultipartFile
 
 
 
