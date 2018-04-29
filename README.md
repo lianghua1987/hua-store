@@ -12,8 +12,8 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 | ---- | ------------------------------------------------------------ | :------: | ---------------------------------------------- |
 | 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018             |
 | 2    | Framework intergration. Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018             |
-| 3    | Backend service management. Add product, image upload.       |          | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
-| 4    | Product regulation?                                          |          |                                                |
+| 3    | Backend service management. Add product, image upload.       |    ✅     | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
+| 4    | Product regulation?                                          |          | 04/28/2018                                     |
 | 5    | Product front end, display page.                             |          |                                                |
 | 6    | cms implementation. Ad display.                              |          |                                                |
 | 7**  | Add cache, Redis, cache synchornaztion.                      |          |                                                |
@@ -545,6 +545,46 @@ hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
 
 
 #### MultipartFile
+
+**springmvc.xml**
+
+```
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <!-- 5MB 5 * 1024 * 1024-->
+        <property name="maxUploadSize" value="5242880"></property>
+    </bean>
+```
+
+**Note:** 
+
+```java
+ @RequestMapping("image/upload")
+ @ResponseBody // response header - content-type: text/plain
+ public String upload(MultipartFile multipartFile){
+   return JsonUtils.objectToJson(imageService.upload(multipartFile));
+ }
+
+
+ @RequestMapping("image/upload")
+ @ResponseBody // response header - content-type: application/json
+ public Map upload(MultipartFile multipartFile){
+   return imageService.upload(multipartFile);
+ }
+```
+
+#### Add item
+
+```javascript
+ //$("#itemAddForm").serialize()将表单序列号为key-value形式的字符串
+ $.post("/item/add", $("#itemAddForm").serialize(), function (data) 
+        if (data.status == 200) {
+            $.messager.alert('提示', '新增商品成功!');
+        }
+ });
+```
+
+
 
 
 

@@ -1,12 +1,14 @@
 package com.hua.store.controller;
 
 import com.hua.store.common.pojo.EUDataGridResult;
+import com.hua.store.common.pojo.Result;
 import com.hua.store.pojo.Item;
 import com.hua.store.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.Duration;
@@ -27,7 +29,7 @@ public class ItemController {
         return item;
     }
 
-    @RequestMapping("/items")
+    @RequestMapping("/item/list")
     @ResponseBody
     public EUDataGridResult getAll(Integer page, Integer rows) {
         LocalDateTime start = LocalDateTime.now();
@@ -36,5 +38,10 @@ public class ItemController {
         return euDataGridResult;
     }
 
+    @RequestMapping(value = "/item/add", method = RequestMethod.POST)
+    @ResponseBody
+    public Result add(Item item, String desc) {
+        return service.add(item, desc);
+    }
 
 }
