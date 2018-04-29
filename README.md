@@ -14,7 +14,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 | 2    | Framework intergration. Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018             |
 | 3    | Backend service management. Add product, image upload.       |    ✅     | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
 | 4    | Product structure, info                                      |    ✅     | 04/28/2018                                     |
-| 5    | Product front end, display page.                             |          |                                                |
+| 5    | Product front end, display page.                             |          | 04/28/2018                                     |
 | 6    | cms implementation. Ad display.                              |          |                                                |
 | 7**  | Add cache, Redis, cache synchornaztion.                      |          |                                                |
 | 8*   | Search function. Implement by solr.                          |          |                                                |
@@ -584,9 +584,20 @@ hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
  });
 ```
 
+### Portal
 
+#### Optimized Infrastructure
 
+**Pros:**
 
+- 前台系统和服务层分开，降低耦合度
+- 开发团队可以分开，提高开发效率
+- 系统可以分开灵活的进行部署
+
+**Cons:**
+
+- 服务之间使用接口通信，开发工作量提高
+- 接口通信带来延迟
 
 ## Reference
 
