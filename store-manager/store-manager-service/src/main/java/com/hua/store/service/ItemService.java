@@ -10,5 +10,5 @@ public interface ItemService {
 
     public EUDataGridResult getAll(Integer pageNumber, Integer pageSize);
 
-    public Result add(Item item, String description);
+    public Result add(Item item, String description, String paramData);
 }

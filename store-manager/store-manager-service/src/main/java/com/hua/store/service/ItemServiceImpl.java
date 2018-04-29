@@ -7,9 +7,11 @@ import com.hua.store.common.pojo.Result;
 import com.hua.store.common.utils.IdUtil;
 import com.hua.store.mapper.ItemDescriptionMapper;
 import com.hua.store.mapper.ItemMapper;
+import com.hua.store.mapper.ItemParameterItemMapper;
 import com.hua.store.pojo.Item;
 import com.hua.store.pojo.ItemDescription;
 import com.hua.store.pojo.ItemExample;
+import com.hua.store.pojo.ItemParameterItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemDescriptionMapper itemDescriptionMapper;
+
+    @Autowired
+    private ItemParameterItemMapper itemParameterItemMapper;
 
     @Override
     public Item getItemById(Long itemId) {
@@ -47,18 +52,26 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Result add(Item item, String description) {
+    public Result add(Item item, String description, String paramData) {
         Long itemId = IdUtil.genItemId();
         item.setId(itemId);
         item.setCreated(new Date());
         item.setUpdated(new Date());
         item.setStatus((byte) 1);
         itemMapper.insert(item);
+
         Result result = addItemDescription(itemId, description);
 
         if (result.getStatus() != 200) {
             throw new RuntimeException("AddItemDescription failed.");
         }
+
+        result = addItemParameterItem(itemId, paramData);
+
+        if (result.getStatus() != 200) {
+            throw new RuntimeException("AddItemParameterItem failed.");
+        }
+
         return Result.OK();
     }
 
@@ -73,4 +86,14 @@ public class ItemServiceImpl implements ItemService {
         return Result.OK();
     }
 
+
+    private Result addItemParameterItem(Long itemId, String paramData) {
+        ItemParameterItem itemParameterItem = new ItemParameterItem();
+        itemParameterItem.setItemId(itemId);
+        itemParameterItem.setParamData(paramData);
+        itemParameterItem.setUpdated(new Date());
+        itemParameterItem.setCreated(new Date());
+        itemParameterItemMapper.insert(itemParameterItem);
+        return Result.OK();
+    }
 }

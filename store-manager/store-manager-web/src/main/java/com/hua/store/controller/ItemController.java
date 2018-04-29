@@ -40,8 +40,8 @@ public class ItemController {
 
     @RequestMapping(value = "/item/add", method = RequestMethod.POST)
     @ResponseBody
-    public Result add(Item item, String desc) {
-        return service.add(item, desc);
+    public Result add(Item item, String desc, String itemParams) {
+        return service.add(item, desc, itemParams);
     }
 
 }

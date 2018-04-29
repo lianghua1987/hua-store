@@ -31,7 +31,6 @@ public class ItemParameterController {
         return euDataGridResult;
     }
 
-
     @RequestMapping("/item/param/query/category/{itemCategoryId}")
     @ResponseBody
     public Result getItemByItemCategoryId(@PathVariable Long itemCategoryId) {

@@ -32,7 +32,7 @@ public class ItemParameterServiceImpl implements ItemParameterService {
         ItemParameterExample example = new ItemParameterExample();
         ItemParameterExample.Criteria criteria = example.createCriteria();
         criteria.andItemCatIdEqualTo(categoryId);
-        List<ItemParameter>  itemParameters = mapper.selectByExample(example);
+        List<ItemParameter>  itemParameters = mapper.selectByExampleWithBLOBs(example);
 
         if(itemParameters != null && !itemParameters.isEmpty()){
             return Result.OK(itemParameters.get(0));
@@ -48,4 +48,5 @@ public class ItemParameterServiceImpl implements ItemParameterService {
         mapper.insert(itemParameter);
         return Result.OK();
     }
+
 }

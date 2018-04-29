@@ -1,5 +1,6 @@
 com/hua/store/controller/CategoryController.class
+com/hua/store/controller/PageController.class
+com/hua/store/controller/ItemParameterItemController.class
 com/hua/store/controller/ItemParameterController.class
 com/hua/store/controller/ItemController.class
 com/hua/store/controller/ImageController.class
-com/hua/store/controller/PageController.class
