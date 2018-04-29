@@ -137,7 +137,7 @@ Framework: springMVC + spring + mybatis
             </plugin>
 ```
 
-** java generator**
+**** **java generator**
 
 ```
 public void generator() throws Exception{
@@ -584,9 +584,7 @@ hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
  });
 ```
 
-### Portal
-
-#### Optimized Infrastructure
+### Optimized Infrastructure
 
 **Pros:**
 
@@ -599,13 +597,37 @@ hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
 - 服务之间使用接口通信，开发工作量提高
 - 接口通信带来延迟
 
+### Portal Layer
+
 #### Technology Stack
 
-- mybatis
-- spring
-- springmvc
+- jstl, jQuery
+- Spring
+- SpringMVC
+- httpClient
+
+### Rest Layer
+
+#### Technology Stack
+
+- Mybatis
+- Spring
+- Springmvc
+
+#### Cross Domain Origin
+
+- Domain names are different
+- Domain names are the same, ports are different
+
+##### JsonP
+
+跨域解决方案。js无法跨域请求，但是可以js跨域请求js脚本。漏洞？我们可以把数据封装成js语句，做一个方法调用。跨域请求的js可以得到此脚本，得到后会立即执行。可以把数据作为参数传递到方法中，从而获取数据解决跨域问题。
 
 
+
+#### 
+
+ 
 
 ## Reference
 
