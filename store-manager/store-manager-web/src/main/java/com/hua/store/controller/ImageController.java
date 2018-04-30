@@ -1,6 +1,5 @@
 package com.hua.store.controller;
 
-
 import com.hua.store.common.utils.JsonUtils;
 import com.hua.store.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,9 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-
     @RequestMapping("image/upload")
     @ResponseBody
-    public String upload(MultipartFile multipartFile){ // must match filePostName  : "multipartFile" in common.js
+    public String upload(MultipartFile multipartFile) { // must match filePostName  : "multipartFile" in common.js
         return JsonUtils.objectToJson(imageService.upload(multipartFile));
     }
 }

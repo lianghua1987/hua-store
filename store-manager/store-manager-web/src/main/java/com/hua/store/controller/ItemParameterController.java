@@ -2,10 +2,8 @@ package com.hua.store.controller;
 
 import com.hua.store.common.pojo.EUDataGridResult;
 import com.hua.store.common.pojo.Result;
-import com.hua.store.pojo.Item;
 import com.hua.store.pojo.ItemParameter;
 import com.hua.store.service.ItemParameterService;
-import com.hua.store.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

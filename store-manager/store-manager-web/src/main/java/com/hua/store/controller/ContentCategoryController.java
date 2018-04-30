@@ -1,6 +1,5 @@
 package com.hua.store.controller;
 
-
 import com.hua.store.common.pojo.EUTreeNode;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/content/category")
 @ResponseBody
 public class ContentCategoryController {
-
 
     @Autowired
     private ContentCategoryService service;

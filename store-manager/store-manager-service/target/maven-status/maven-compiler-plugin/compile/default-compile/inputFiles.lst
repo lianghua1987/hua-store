@@ -3,10 +3,12 @@
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemParameterServiceImpl.java
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemParameterService.java
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ImageServiceImpl.java
+/Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemParameterItemService.java
+/Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemServiceImpl.java
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ImageService.java
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemParameterItemServiceImpl.java
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemCategoryService.java
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemCategoryServiceImpl.java
+/Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ContentService.java
 /Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ContentCategoryService.java
-/Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemParameterItemService.java
-/Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ItemServiceImpl.java
+/Users/hliang/code/hua-store/store-manager/store-manager-service/src/main/java/com/hua/store/service/ContentServiceImpl.java
