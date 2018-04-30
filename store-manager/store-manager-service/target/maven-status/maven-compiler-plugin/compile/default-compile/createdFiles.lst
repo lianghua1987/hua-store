@@ -5,6 +5,8 @@ com/hua/store/service/ItemParameterItemServiceImpl.class
 com/hua/store/service/ItemService.class
 com/hua/store/service/ImageService.class
 com/hua/store/service/ItemParameterItemService.class
+com/hua/store/service/ContentCategoryService.class
+com/hua/store/service/ContentCategoryServiceImpl.class
 com/hua/store/service/ImageServiceImpl.class
 com/hua/store/service/ItemCategoryService.class
 com/hua/store/service/ItemParameterService.class

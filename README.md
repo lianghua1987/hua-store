@@ -9,21 +9,21 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 ## Agenda
 
 | DAYS | Agenda                                                       | Finished | Date                                           |
-| ---- | ------------------------------------------------------------ | :------: | ---------------------------------------------- |
-| 1    | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018             |
-| 2    | Framework intergration. Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018             |
-| 3    | Backend service management. Add product, image upload.       |    ✅     | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
-| 4    | Product structure, info                                      |    ✅     | 04/28/2018                                     |
-| 5    | Product front end, display page.                             |          | 04/28/2018, 04/29/2018                         |
-| 6    | cms implementation. Ad display.                              |          |                                                |
-| 7**  | Add cache, Redis, cache synchornaztion.                      |          |                                                |
-| 8*   | Search function. Implement by solr.                          |          |                                                |
-| 9    | Product detail page.                                         |          |                                                |
-| 10   | Shared session.                                              |          |                                                |
-| 11   | Shopping cart.                                               |          |                                                |
-| 12** | Nginx                                                        |          |                                                |
-| 13   | Redis cluster, solr cluster. System deployment.              |          |                                                |
-| 14   | Wrap up                                                      |          |                                                |
+| :--: | ------------------------------------------------------------ | :------: | ---------------------------------------------- |
+|  1   | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018             |
+|  2   | **Framework intergration.** Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018             |
+|  3   | Backend service management. Add product, image upload.       |    ✅     | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
+|  4   | Product structure, info.                                     |    ✅     | 04/28/2018                                     |
+|  5   | Product front end, display page.                             |    ✅     | 04/28/2018, 04/29/2018                         |
+|  6   | cms implementation. Ad display.                              |          | 04/29/2018                                     |
+|  7   | **Add cache, Redis, cache synchornaztion.**                  |          |                                                |
+|  8*  | **Search function. Implement by solr.**                      |          |                                                |
+|  9   | Product detail page.                                         |          |                                                |
+|  10  | **Shared session.**                                          |          |                                                |
+|  11  | Shopping cart.                                               |          |                                                |
+|  12  | **Nginx.**                                                   |          |                                                |
+|  13  | **Redis cluster, solr cluster. System deployment.**          |          |                                                |
+|  14  | Wrap up                                                      |          |                                                |
 
 ## Features
 
@@ -622,6 +622,17 @@ hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
 ##### JsonP
 
 跨域解决方案。js无法跨域请求，但是可以js跨域请求js脚本。漏洞？我们可以把数据封装成js语句，做一个方法调用。跨域请求的js可以得到此脚本，得到后会立即执行。可以把数据作为参数传递到方法中，从而获取数据解决跨域问题。
+
+### Content Category Mgmt
+
+#### **In order to return auto increased id, have to tweak corresponding mapper.xml method**
+
+```Xml
+<insert id="insert" parameterType="com.hua.store.pojo.ContentCategory">
+    <selectKey keyProperty="id" resultType="long" order = "AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+```
 
 
 
