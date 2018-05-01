@@ -15,7 +15,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 |  3   | Backend service management. Add product, image upload.       |    ✅     | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
 |  4   | Product structure, info.                                     |    ✅     | 04/28/2018                                     |
 |  5   | Product front end, display page.                             |    ✅     | 04/28/2018, 04/29/2018                         |
-|  6   | cms implementation. Ad display.                              |          | 04/29/2018                                     |
+|  6   | cms implementation. Ad display.                              |    ✅     | 04/29/2018, 04/30/2018                         |
 |  7   | **Add cache, Redis, cache synchornaztion.**                  |          |                                                |
 |  8*  | **Search function. Implement by solr.**                      |          |                                                |
 |  9   | Product detail page.                                         |          |                                                |

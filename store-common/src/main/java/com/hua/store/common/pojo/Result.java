@@ -110,13 +110,7 @@ public class Result {
         return null;
     }
 
-    /**
-     * Object是集合转化
-     *
-     * @param jsonData json数据
-     * @param clazz    集合中的类型
-     * @return
-     */
+
     public static Result formatToList(String jsonData, Class<?> clazz) {
         try {
             JsonNode jsonNode = MAPPER.readTree(jsonData);
