@@ -16,7 +16,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 |  4   | Product structure, info.                                     |    ✅     | 04/28/2018                                     |
 |  5   | Product front end, display page.                             |    ✅     | 04/28/2018, 04/29/2018                         |
 |  6   | cms implementation. Ad display.                              |    ✅     | 04/29/2018, 04/30/2018                         |
-|  7   | **Add cache, Redis, cache synchornaztion.**                  |          |                                                |
+|  7   | **Add cache, Redis, cache synchornaztion.**                  |          | 04/30/2018, 05/01/2018                         |
 |  8*  | **Search function. Implement by solr.**                      |          |                                                |
 |  9   | Product detail page.                                         |          |                                                |
 |  10  | **Shared session.**                                          |          |                                                |
@@ -634,11 +634,214 @@ hua@node1:/home/ftpadmin/www$ sudo chmod 777 images
     </selectKey>
 ```
 
+#### store-portal doPost 406
+
+-  检查jackson包是否存在
+- 检查后缀是否为html，如果是，修改xml，添加servlet-mapping为action或者do
+
+### Redis Server - 10.0.0.77
+
+#### Install
+
+```
+sudo apt update
+sudo apt full-upgrade
+sudo apt install build-essential tcl
+sudo apt-get install redis-server
+sudo systemctl restart redis-server.service // no need
+ sudo systemctl stop redis-server.service
+sudo systemctl enable redis-server.service
+sudo systemctl disable redis-server.service
+
+sudo nano /etc/redis/redis.conf
+redis-cli 
+```
+
+#### Data Type
+
+- Sting
+- Hash
+- List
+- Set
+- SortedSet
+
+#### Cluster Setup
+
+Redis-cluster把所有的物理节点映射到【0-16383】slot上，cluster负责维护 node<—>slot<—>value
+
+*redis集群中内置了16384个哈希槽，当需要在redis集群中放置一个key-value时，redis先对key用crc16算法算出一个结果，然后把结果对16384求余数，这样每个key都会对应一个编号0-16383之间的哈希槽，redis会根据节点数量大致均等的将哈希槽映射到不同节点。*
+
+*领着投票过程是急群众所有master参与，如果半数以上master节点与master节点通信超过（cluster-node-timeout），认为当前master节点挂掉 *
+
+*如果集群任意master挂掉，且当前master没有slave，集群进入fail状态，也可以理解成集群的slot映射【0-16383】不完成时进入fail状态。 redis-3.0.0.rc1加入cluster-require-full-coverage参数，打开集群兼容部分失败。*
+
+*如果集群超过半数以上master挂掉，无论是否有slave集群进入fail状态*。当集群不可用时，所有对集群的操作都不可用，收到((error)CLUSTERDOWN The cluster is down)错误。
+
+#### Cluster Struture
+
+The cluster has 3 nodes, each node has 1 master node and 1 slave node which equals to 6 total. Ideally we need 6 servers.
+
+搭建一个为分布式集群, 使用6个实例来模拟。
+
+```
+sudo apt install ruby
+sudo gem install redis -v 3.0.6 // depends on redis version
+```
+
+###### Create Cluster
+
+```
+hua@node1:~$ cd /usr/local
+hua@node1:/usr/local$ sudo mkdir redis-cluster
+```
+
+6 redis instance, port number [7001 - 7006]
+
+- change port
+- enable cluster-enabled yes
+- change pid
+- change filename from dump.rdb to redis*.rdb
+- change rdb dir to data
+- change log file location
+- change cluster file location
+- change bind to 10.0.0.77
+- create redis-trib.rb http://download.redis.io/redis-stable/src/redis-trib.rb
+
+```
+hua@node1:/usr/local/redis-cluster$ sudo mkdir redis01
+hua@node1:/usr/local/redis-cluster$ sudo mkdir redis02
+hua@node1:/usr/local/redis-cluster$ sudo mkdir redis03
+hua@node1:/usr/local/redis-cluster$ sudo mkdir redis04
+hua@node1:/usr/local/redis-cluster$ sudo mkdir redis05
+hua@node1:/usr/local/redis-cluster$ sudo mkdir redis06
+hua@node1:/usr/local/redis-cluster$ sudo cp /etc/redis/redis.conf /usr/local/redis-cluster/redis01/redis1.conf
+hua@node1:/usr/local/redis-cluster$ sudo cp /etc/redis/redis.conf /usr/local/redis-cluster/redis02/redis2.conf
+hua@node1:/usr/local/redis-cluster$ sudo cp /etc/redis/redis.conf /usr/local/redis-cluster/redis03/redis3.conf
+hua@node1:/usr/local/redis-cluster$ sudo cp /etc/redis/redis.conf /usr/local/redis-cluster/redis04/redis4.conf
+hua@node1:/usr/local/redis-cluster$ sudo cp /etc/redis/redis.conf /usr/local/redis-cluster/redis05/redis5.conf
+hua@node1:/usr/local/redis-cluster$ sudo cp /etc/redis/redis.conf /usr/local/redis-cluster/redis06/redis6.conf
+
+hua@node1:/usr/local/redis-cluster$ ls
+redis01  redis02  redis03  redis04  redis05  redis06
+hua@node1:/usr/local/redis-cluster$ sudo mkdir logs
+hua@node1:/usr/local/redis-cluster$ sudo mkdir pids
+hua@node1:/usr/local/redis-cluster$ sudo mkdir data
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rw data
+hua@node1:/usr/local/redis-cluster$ sudo chmod 777 logs
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rw pids
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rx redis01/redis1.conf 
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rx redis02/redis2.conf 
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rx redis03/redis3.conf 
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rx redis04/redis4.conf 
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rx redis05/redis5.conf 
+hua@node1:/usr/local/redis-cluster$ sudo chmod +rx redis06/redis6.conf 
+hua@node1:/usr/local/redis-cluster$ sudo chmod +x redis-trib.rb 
+```
+
+安装完成后，可以使用dpkg命令查看各文件所在的路径：
+
+```
+$ sudo dpkg -L redis-server
+```
+
+###### Start-all.sh
+
+```
+redis-server redis01/redis1.conf
+redis-server redis02/redis2.conf
+redis-server redis03/redis3.conf
+redis-server redis04/redis4.conf
+redis-server redis05/redis5.conf
+redis-server redis06/redis6.conf
+```
+
+```
+hua@node1:/usr/local/redis-cluster$ sudo chmod +x start-all.sh 
+```
+
+执行命令redis-trib.rb，ruby脚本，依赖ruby 
+
+```Ruby
+sudo ./redis-trib.rb create --replicas 1 10.0.0.77:7001 10.0.0.77:7002 10.0.0.77:7003 10.0.0.77:7004 10.0.0.77:7005  10.0.0.77:7006
+```
+
+redis集群至少三个主节点，每个主节点有一个从节点，一共六个节点
+
+replica指定为1表示每个主节点有一个从节点
+
+```
+hua@node1:/usr/local/redis-cluster$  sudo ./redis-trib.rb create --replicas 1 10.0.0.77:7001 10.0.0.77:7002 10.0.0.77:7003 10.0.0.77:7004 10.0.0.77:7005  10.0.0.77:7006
+./redis-trib.rb:1573: warning: key "threshold" is duplicated and overwritten on line 1573
+>>> Creating cluster
+>>> Performing hash slots allocation on 6 nodes...
+Using 3 masters:
+10.0.0.77:7001
+10.0.0.77:7002
+10.0.0.77:7003
+Adding replica 10.0.0.77:7004 to 10.0.0.77:7001
+Adding replica 10.0.0.77:7005 to 10.0.0.77:7002
+Adding replica 10.0.0.77:7006 to 10.0.0.77:7003
+M: 3215aa852927b74da7790634ad2ae848cef920d6 10.0.0.77:7001
+   slots:0-5460 (5461 slots) master
+M: e09ec3d369a5cb082d1aea9132a378ff2c4b70d0 10.0.0.77:7002
+   slots:5461-10922 (5462 slots) master
+M: f0d9a45edcbef011527a1cc1b5efb9afd1ba4c64 10.0.0.77:7003
+   slots:10923-16383 (5461 slots) master
+S: 5b87bb63781591fbae1159b8513205f9581aad88 10.0.0.77:7004
+   replicates 3215aa852927b74da7790634ad2ae848cef920d6
+S: 0eafc4b443ac03b743e26ec13717735d9d55ce18 10.0.0.77:7005
+   replicates e09ec3d369a5cb082d1aea9132a378ff2c4b70d0
+S: b658a243a08c6e4840ea0c3632750ddb28a213c1 10.0.0.77:7006
+   replicates f0d9a45edcbef011527a1cc1b5efb9afd1ba4c64
+Can I set the above configuration? (type 'yes' to accept): yes
+>>> Nodes configuration updated
+>>> Assign a different config epoch to each node
+>>> Sending CLUSTER MEET messages to join the cluster
+Waiting for the cluster to join.....
+>>> Performing Cluster Check (using node 10.0.0.77:7001)
+M: 3215aa852927b74da7790634ad2ae848cef920d6 10.0.0.77:7001
+   slots:0-5460 (5461 slots) master
+M: e09ec3d369a5cb082d1aea9132a378ff2c4b70d0 10.0.0.77:7002
+   slots:5461-10922 (5462 slots) master
+M: f0d9a45edcbef011527a1cc1b5efb9afd1ba4c64 10.0.0.77:7003
+   slots:10923-16383 (5461 slots) master
+M: 5b87bb63781591fbae1159b8513205f9581aad88 10.0.0.77:7004
+   slots: (0 slots) master
+   replicates 3215aa852927b74da7790634ad2ae848cef920d6
+M: 0eafc4b443ac03b743e26ec13717735d9d55ce18 10.0.0.77:7005
+   slots: (0 slots) master
+   replicates e09ec3d369a5cb082d1aea9132a378ff2c4b70d0
+M: b658a243a08c6e4840ea0c3632750ddb28a213c1 10.0.0.77:7006
+   slots: (0 slots) master
+   replicates f0d9a45edcbef011527a1cc1b5efb9afd1ba4c64
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+```
+
+##### Test Cluster 
+
+###### with -c
+
+```
+hua@node1:~$ redis-cli -h 10.0.0.77 -p 7003 -c //cluster
+hua@node1:~$ redis-cli -h 10.0.0.77 -p 7006 -c //cluster
+10.0.0.77:7006> set name hualiang
+-> Redirected to slot [5798] located at 10.0.0.77:7002
+OK
+```
+
+###### without -c
+
+```
+hua@node1:~$ redis-cli -h 10.0.0.77 -p 7003 -c //cluster
+hua@node1:~$ redis-cli -h 10.0.0.77 -p 7006 -c //cluster
+10.0.0.77:7006> set name hualiang
+(error) MOVED 5798 10.0.0.77:7002
+```
 
 
-#### 
-
- 
 
 ## Reference
 
@@ -649,6 +852,12 @@ mybatis page helper - https://github.com/pagehelper/Mybatis-PageHelper/blob/mast
 easyui的datagrid對應的java對象 - https://hk.saowen.com/a/a2afa859baee4c35d5ee46363513d2630a5bfd7259564334480affa4c6546ee2
 
 nginx配置静态文件目录404 - https://zhangguodong.me/2017/01/22/nginx%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95404/
+
+How To Install and Configure Redis on Ubuntu 16.04 - https://www.rosehosting.com/blog/how-to-install-configure-and-use-redis-on-ubuntu-16-04
+
+redis数据分布及槽信息 - https://www.jianshu.com/p/b35d778fa529
+
+How to Install and Configure a Redis Cluster on Ubuntu - https://www.linode.com/docs/applications/big-data/how-to-install-and-configure-a-redis-cluster-on-ubuntu-1604/
 
 ## TroubleShoot
 

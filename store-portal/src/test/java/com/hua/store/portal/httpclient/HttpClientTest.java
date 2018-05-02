@@ -53,9 +53,9 @@ public class HttpClientTest {
     @Test
     public void doPost() throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost post = new HttpPost("http://localhost:8082/httpclient/post.html");
+        HttpPost post = new HttpPost("http://localhost:8082/httpclient/post.action");
         CloseableHttpResponse response = httpClient.execute(post);
-        assertEquals("ok", EntityUtils.toString(response.getEntity()));
+        assertEquals(200, response.getStatusLine().getStatusCode());
         response.close();
         httpClient.close();
     }
@@ -63,12 +63,12 @@ public class HttpClientTest {
     @Test
     public void doPostWithParam() throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost post = new HttpPost("http://localhost:8082/httpclient/post.html");
+        HttpPost post = new HttpPost("http://localhost:8082/httpclient/post.action");
         List<NameValuePair> pairs = new ArrayList<>();
-        pairs.add(new BasicNameValuePair("username", "lianghua"));
+        pairs.add(new BasicNameValuePair("username", "梁骅"));
         pairs.add(new BasicNameValuePair("password", "123456"));
 
-        post.setEntity(new UrlEncodedFormEntity(pairs));
+        post.setEntity(new UrlEncodedFormEntity(pairs, "utf-8"));
         CloseableHttpResponse response = httpClient.execute(post);
         System.out.println(EntityUtils.toString(response.getEntity()));
         response.close();
