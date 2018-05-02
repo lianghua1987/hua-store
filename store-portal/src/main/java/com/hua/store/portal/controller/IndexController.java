@@ -15,7 +15,6 @@ import java.awt.*;
 @Controller
 public class IndexController {
 
-
     @Autowired
     private ContentService service;
 
@@ -24,7 +23,6 @@ public class IndexController {
         model.addAttribute("ad1", service.getContents());
         return "index";
     }
-
 
     @RequestMapping(value = "/httpclient/post", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
