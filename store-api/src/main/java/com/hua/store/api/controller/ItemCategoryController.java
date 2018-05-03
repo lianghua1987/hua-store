@@ -2,7 +2,6 @@ package com.hua.store.api.controller;
 
 import com.hua.store.api.pojo.CategoryResult;
 import com.hua.store.api.service.ItemCategoryService;
-import com.hua.store.common.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJacksonValue;

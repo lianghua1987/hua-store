@@ -4,10 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hua.store.common.pojo.EUDataGridResult;
 import com.hua.store.common.pojo.Result;
+import com.hua.store.common.utils.ExceptionUtil;
+import com.hua.store.common.utils.HttpClientUtil;
 import com.hua.store.mapper.ContentMapper;
 import com.hua.store.pojo.Content;
 import com.hua.store.pojo.ContentExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -18,6 +21,12 @@ public class ContentServiceImpl implements ContentService {
 
     @Autowired
     private ContentMapper mapper;
+
+    @Value("${API_URL}")
+    private String BASE_URL;
+
+    @Value("${SYNC_REST_CONTENT_RESOURCE}")
+    private String SYNC_REST_CONTENT_RESOURCE;
 
     @Override
     public EUDataGridResult getAll(Integer pageNumber, Integer pageSize, Long categoryId) {
@@ -34,6 +43,14 @@ public class ContentServiceImpl implements ContentService {
         content.setCreated(new Date());
         content.setUpdated(new Date());
         mapper.insert(content);
+
+        try {
+            HttpClientUtil.doGet(BASE_URL + SYNC_REST_CONTENT_RESOURCE + content.getCategoryId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.build(500, ExceptionUtil.getStackTrace(e));
+        }
+
         return Result.OK();
     }
 

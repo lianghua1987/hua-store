@@ -66,4 +66,7 @@
         </constructor-arg>
         <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
     </bean>
+
+    <!--<bean id="jedisClientStandalone" class="com.hua.store.api.dao.JedisClientStandalone"/>-->
+    <bean id="jedisClientCluster" class="com.hua.store.api.dao.JedisClientCluster"/>
 </beans>

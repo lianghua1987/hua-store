@@ -16,7 +16,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 |  4   | Product structure, info.                                     |    ✅     | 04/28/2018                                     |
 |  5   | Product front end, display page.                             |    ✅     | 04/28/2018, 04/29/2018                         |
 |  6   | cms implementation. Ad display.                              |    ✅     | 04/29/2018, 04/30/2018                         |
-|  7   | **Add cache, Redis, cache synchornaztion.**                  |          | 04/30/2018, 05/01/2018                         |
+|  7   | **Add cache, Redis, cache synchornaztion.**                  |    ✅     | 04/30/2018, 05/01/2018, 05/02/2018, 05/03/2018 |
 |  8*  | **Search function. Implement by solr.**                      |          |                                                |
 |  9   | Product detail page.                                         |          |                                                |
 |  10  | **Shared session.**                                          |          |                                                |
@@ -841,7 +841,13 @@ hua@node1:~$ redis-cli -h 10.0.0.77 -p 7006 -c //cluster
 (error) MOVED 5798 10.0.0.77:7002
 ```
 
+#### 缓存同步
 
+当后台管理系统修改内容之后，需要通知redis修改其cache内容（内容对应的key删除），否则用户永远查不到最新数据。
+
+**解决方案**
+
+Store-api中定义服务，当后台管理系统修改内容时，调用此服务，清空缓存
 
 ## Reference
 
