@@ -1,6 +1,8 @@
 package com.hua.store.api.jedis;
 
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
@@ -47,6 +49,24 @@ public class JedisTest {
         cluster.set("age", "30");
         assertEquals("30", cluster.get("age"));
         cluster.close();
+    }
 
+//    @Test
+//    public void testSpringJedisStandalone() {
+//        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext-*.xml");
+//
+//        JedisPool pool = (JedisPool) context.getBean("redisClient");
+//        Jedis jedis = pool.getResource();
+//        System.out.println(jedis.get("name"));
+//        pool.close();
+//    }
+
+
+    @Test
+    public void testSpringJedisCluster() throws IOException {
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext-*.xml");
+        JedisCluster cluster = (JedisCluster) context.getBean("redisClient");
+        System.out.println(cluster.get("name"));
+        cluster.close();
     }
 }
