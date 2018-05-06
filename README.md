@@ -8,22 +8,22 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 
 ## Agenda
 
-| DAYS | Agenda                                                       | Finished | Date                                           |
-| :--: | ------------------------------------------------------------ | :------: | ---------------------------------------------- |
-|  1   | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018             |
-|  2   | **Framework intergration.** Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018             |
-|  3   | Backend service management. Add product, image upload.       |    ✅     | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018 |
-|  4   | Product structure, info.                                     |    ✅     | 04/28/2018                                     |
-|  5   | Product front end, display page.                             |    ✅     | 04/28/2018, 04/29/2018                         |
-|  6   | cms implementation. Ad display.                              |    ✅     | 04/29/2018, 04/30/2018                         |
-|  7   | **Add cache, Redis, cache synchornaztion.**                  |    ✅     | 04/30/2018, 05/01/2018, 05/02/2018, 05/03/2018 |
-|  8*  | **Search function. Implement by solr.**                      |          | 05/03/2018,                                    |
-|  9   | Product detail page.                                         |          |                                                |
-|  10  | **Shared session.**                                          |          |                                                |
-|  11  | Shopping cart.                                               |          |                                                |
-|  12  | **Nginx.**                                                   |          |                                                |
-|  13  | **Redis cluster, solr cluster. System deployment.**          |          |                                                |
-|  14  | Wrap up                                                      |          |                                                |
+| DAYS | Agenda                                                       | Finished | Date                                            |
+| :--: | ------------------------------------------------------------ | :------: | ----------------------------------------------- |
+|  1   | Background, history, now and future. Setup maven project, GitHub repo created. |    ✅     | 04/18/2018, 04/19/2018, 04/19/2018              |
+|  2   | **Framework intergration.** Products list implemetation, paganation. |    ✅     | 04/21/2018, 04/22/2018, 04/23/2018              |
+|  3   | Backend service management. Add product, image upload.       |    ✅     | 04/24/2018, 04/25/2018, 04/26/2018, 04/27/2018  |
+|  4   | Product structure, info.                                     |    ✅     | 04/28/2018                                      |
+|  5   | Product front end, display page.                             |    ✅     | 04/28/2018, 04/29/2018                          |
+|  6   | cms implementation. Ad display.                              |    ✅     | 04/29/2018, 04/30/2018                          |
+|  7   | **Add cache, Redis, cache synchornaztion.**                  |    ✅     | 04/30/2018, 05/01/2018, 05/02/2018, 05/03/2018  |
+|  8*  | **Search function. Implement by solr.**                      |          | 05/03/2018, 05/04/2018, 05/05/2018, 05/06/2018, |
+|  9   | Product detail page.                                         |          |                                                 |
+|  10  | **Shared session.**                                          |          |                                                 |
+|  11  | Shopping cart.                                               |          |                                                 |
+|  12  | **Nginx.**                                                   |          |                                                 |
+|  13  | **Redis cluster, solr cluster. System deployment.**          |          |                                                 |
+|  14  | Wrap up                                                      |          |                                                 |
 
 ## Features
 
@@ -851,11 +851,7 @@ Store-api中定义服务，当后台管理系统修改内容时，调用此服�
 
 ### Solr
 
-#### Installation
-
-- Java
-- tomcat
-- Solo
+#### 第一种方案 ❌
 
 ###### Install Java8
 
@@ -918,6 +914,66 @@ Tomcat started.
 
 url - http://10.0.0.97:8080/solr/index.html#/
 
+#### 第二种方案 ❌
+
+1. 下载solr
+2. 修改web.xml中的SOLR_HOME
+3. bin文件夹下启动 ./solr start
+4. 访问url: http://10.0.0.97:8983/
+
+```
+hua@node1:/usr/local/solr/solr-7.3.0/server$ sudo mkdir logs
+hua@node1:/usr/local/solr/solr-7.3.0/server$ sudo chmod 777 logs
+```
+
+#### 第三种方案 ✅
+
+1. 下载solr-4.9.1，解压
+2. 创建solrhome
+3. 下载tomcat
+
+```Shell
+hua@node1:/usr/local/solr$ sudo wget http://archive.apache.org/dist/lucene/solr/4.9.1/solr-4.9.1.tgz
+hua@node1:/usr/local/solr$ sudo tar zxf solr-4.9.1.tgz 
+
+hua@node1:/usr/local/solr$ sudo wget http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.86/bin/apache-tomcat-7.0.86.tar.gz
+hua@node1:/usr/local/solr$ sudo tar -zxf apache-tomcat-7.0.86.tar.gz
+hua@node1:/usr/local/solr$ sudo mv apache-tomcat-7.0.86 tomcat-7.0.86
+
+hua@node1:/usr/local/solr/solr-4.9.1/example/webapps$ sudo cp solr.war /usr/local/solr/tomcat-7.0.86/webapps/solr.war
+
+hua@node1:/usr/local/solr/tomcat-7.0.86/bin$ sudo ./startup.sh 
+hua@node1:/usr/local/solr/tomcat-7.0.86/bin$  tail -f ../logs/catalina.out 
+
+hua@node1:/usr/local/solr/tomcat-7.0.86/bin$ sudo ./shutdown.sh //必须先关闭， 否则solr文件夹也被删除
+hua@node1:/usr/local/solr/tomcat-7.0.86/webapps$ sudo rm -rf solr.war 
+hua@node1:/usr/local/solr/solr-4.9.1/example/lib/ext$ sudo cp * /usr/local/solr/tomcat-7.0.86/webapps/solr/WEB-INF/lib/
+hua@node1:/usr/local/solr/solr-4.9.1/example/solr$ sudo cp -r * /usr/local/solr/solrhome/
+hua@node1:/usr/local/solr/tomcat-7.0.86/webapps/solr/WEB-INF$ sudo vim web.xml
+
+<env-entry>
+    <env-entry-name>solr/home</env-entry-name>
+    <env-entry-value>/usr/local/solr/solrhome</env-entry-value>
+    <env-entry-type>java.lang.String</env-entry-type>
+</env-entry>
+
+hua@node1:/usr/local/solr/solr-4.9.1/example/lib$ cd /usr/local/solr/tomcat-7.0.86/webapps/solr/WEB-INF/lib/ // Needed? 
+```
+
+
+
+#### Analyser
+
+IK-Analyzer 中文分词器
+
+- 将扩展词典，停用词典，配置文件复制到solr工程的classpath。字符集必须是utf-8，不能使用windows记事本编辑。
+- 配置field type，需要在solrhome/collection1/conf/schema.xml中配置。
+
+```
+Huas-MacBook-Pro-2:IK Analyzer 2012FF_hf1 hliang$ scp IKAnalyzer2012FF_u1.jar hua@10.0.0.97:/usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF/lib
+Huas-MacBook-Pro-2:IK Analyzer 2012FF_hf1 hliang$ scp IKAnalyzer.cfg.xml mydict.dic ext_stopword.dic hua@10.0.0.97:/usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF/classes
+```
+
 
 
 
@@ -944,6 +1000,8 @@ How To Install Apache Tomcat 8 on Ubuntu 16.04 - https://www.digitalocean.com/co
 
 solr6.4.1安装部署至tomcat教程 - https://my.oschina.net/zycn/blog/841762
 
+ik-analyzer - https://code.google.com/archive/p/ik-analyzer/downloads
+
 ## TroubleShoot
 
 java.lang.ClassNotFoundException: com.fasterxml.jackson.core.JsonProcessingException - https://blog.csdn.net/RyanDYJ/article/details/76687161
@@ -953,4 +1011,6 @@ PageHelper Cannot cast to Interceptor. #48 - https://github.com/pagehelper/Mybat
 Could not chdir to home directory /home/me: No such file or directory - https://askubuntu.com/questions/401201/could-not-chdir-to-home-directory-home-me-no-such-file-or-directory?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 Nginx 403 error: directory index of [folder] is forbidden - https://stackoverflow.com/questions/19285355/nginx-403-error-directory-index-of-folder-is-forbidden?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+uploading files from my computer to an ubuntu server - https://stackoverflow.com/questions/42723895/uploading-files-from-my-computer-to-an-ubuntu-server?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
