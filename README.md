@@ -17,7 +17,7 @@ E-commerce website is popular in nowadays market, especially in China. In order 
 |  5   | Product front end, display page.                             |    ✅     | 04/28/2018, 04/29/2018                         |
 |  6   | cms implementation. Ad display.                              |    ✅     | 04/29/2018, 04/30/2018                         |
 |  7   | **Add cache, Redis, cache synchornaztion.**                  |    ✅     | 04/30/2018, 05/01/2018, 05/02/2018, 05/03/2018 |
-|  8*  | **Search function. Implement by solr.**                      |          |                                                |
+|  8*  | **Search function. Implement by solr.**                      |          | 05/03/2018,                                    |
 |  9   | Product detail page.                                         |          |                                                |
 |  10  | **Shared session.**                                          |          |                                                |
 |  11  | Shopping cart.                                               |          |                                                |
@@ -847,7 +847,80 @@ hua@node1:~$ redis-cli -h 10.0.0.77 -p 7006 -c //cluster
 
 **解决方案**
 
-Store-api中定义服务，当后台管理系统修改内容时，调用此服务，清空缓存
+Store-api中定义服务，当后台管理系统修改内容时，调用此服务，清空缓存.
+
+### Solr
+
+#### Installation
+
+- Java
+- tomcat
+- Solo
+
+###### Install Java8
+
+```
+apt-get update && apt-get upgrade
+apt-get install default-jdk // java8
+```
+
+###### Install tomcat
+
+```
+hua@node1:sudo apt install curl
+hua@node1:sudo mkdir /usr/local/solr
+
+hua@node1:/usr/local/solr$ sudo wget http://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.31/bin/apache-tomcat-8.5.31.tar.gz
+```
+
+###### Install Solr
+
+```Shell
+hua@node1:/usr/local/solr$ sudo wget http://archive.apache.org/dist/lucene/solr/6.6.2/solr-6.6.2.tgz
+hua@node1:/usr/local/solr$ sudo tar -zxvf solr-6.6.2.tgz 
+
+hua@node1:/usr/local/solr/solr-6.6.2/server/solr-webapp$ cp webapp/ /usr/local/solr/tomcat-8.5.31/webapps/solr -r //rename
+hua@node1:/usr/local/solr/solr-6.6.2/server/lib$ sudo cp *.jar /usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF/lib/ // unnecessary
+hua@node1:/usr/local/solr/solr-6.6.2/server/lib/ext$ sudo cp *.jar /usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF/lib/
+hua@node1:/usr/local/solr/solr-6.6.2/dist$ sudo cp solr-dataimporthandler-6.6.2.jar solr-dataimporthandler-extras-6.6.2.jar /usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF/lib/
+hua@node1:/usr/local/solr/solr-6.6.2/server$ sudo cp -R solr /usr/local/solr/solrhome
+```
+
+#### Configuration
+
+```
+hua@node1:/usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF$ sudo vim web.xml 
+<env-entry>
+       <env-entry-name>solr/home</env-entry-name>
+       <env-entry-value>/usr/local/solr/solrhome</env-entry-value>
+       <env-entry-type>java.lang.String</env-entry-type>
+ </env-entry>
+ 
+hua@node1:/usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF$ sudo mkdir classes
+
+// This command is not necessarily needed, causing solr.dir not found exception
+hua@node1:/usr/local/solr/solr-6.6.2/server/resources$ sudo cp *.properties /usr/local/solr/tomcat-8.5.31/webapps/solr/WEB-INF/classes/log4j.properties
+
+hua@node1:/usr/local/solr$ sudo chmod -R 777 tomcat-8.5.31/
+hua@node1:/usr/local/solr/solr-7.3.0/server/solr$ sudo cp * /usr/local/solr/solrhome/
+hua@node1:/usr/local/solr/solrhome$ mkdir logs
+hua@node1:/usr/local/solr/solrhome$ chmod 777 logs
+
+hua@node1:/usr/local/solr/tomcat-8.5.31/bin$ ./startup.sh
+Using CATALINA_BASE:   /usr/local/solr/tomcat-8.5.31
+Using CATALINA_HOME:   /usr/local/solr/tomcat-8.5.31
+Using CATALINA_TMPDIR: /usr/local/solr/tomcat-8.5.31/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /usr/local/solr/tomcat-8.5.31/bin/bootstrap.jar:/usr/local/solr/tomcat-8.5.31/bin/tomcat-juli.jar
+Tomcat started.
+
+```
+
+url - http://10.0.0.97:8080/solr/index.html#/
+
+
+
+
 
 ## Reference
 
@@ -864,6 +937,12 @@ How To Install and Configure Redis on Ubuntu 16.04 - https://www.rosehosting.com
 redis数据分布及槽信息 - https://www.jianshu.com/p/b35d778fa529
 
 How to Install and Configure a Redis Cluster on Ubuntu - https://www.linode.com/docs/applications/big-data/how-to-install-and-configure-a-redis-cluster-on-ubuntu-1604/
+
+How to Install Java on Ubuntu - https://thishosting.rocks/install-java-ubuntu/
+
+How To Install Apache Tomcat 8 on Ubuntu 16.04 - https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04
+
+solr6.4.1安装部署至tomcat教程 - https://my.oschina.net/zycn/blog/841762
 
 ## TroubleShoot
 
